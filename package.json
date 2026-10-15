@@ -1,0 +1,13 @@
+{
+  "name": "ecg-strip-extractor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Crop the tracing out of an ECG PDF, leave patient details behind, and save it true to scale.",
+  "scripts": {
+    "build": "python3 build.py"
+  },
+  "devDependencies": {
+    "pdf-lib": "1.17.1",
+    "pdfjs-dist": "6.2.108"
+  }
+}
