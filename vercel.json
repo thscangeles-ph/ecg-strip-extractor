@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "echo \"Nothing to install: the offline app in dist/ is already built\"",
+  "buildCommand": "echo \"Nothing to build: serving dist/ as is\"",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/ECG-Strip-Extractor.html" }
+  ]
+}
