@@ -6,6 +6,6 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/ECG-Strip-Extractor.html" }
+    { "source": "/", "destination": "/ECG-Strip-Extractor" }
   ]
 }
