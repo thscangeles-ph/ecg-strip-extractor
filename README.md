@@ -2,7 +2,21 @@
 
 Crop the tracing out of an ECG PDF, leave patient details behind, and save it as a new PDF that stays true to scale (25 mm/s and 10 mm/mV are correct when printed at 100%).
 
-## Use it
+## Desktop app
+
+ECG Strip Extractor also comes as an installable desktop app for Windows, macOS and Linux. It is the same app in its own window, with a Start menu / Applications entry, **File › Open PDF…** (Ctrl+O / ⌘O), and an **Open with › ECG Strip Extractor** option for PDF files. It works fully offline.
+
+| System | Download | Notes |
+| --- | --- | --- |
+| Windows 10/11 | `ECG-Strip-Extractor-Setup-<version>-x64.exe` (or `-arm64.exe`) | Installs for the current user; no admin rights needed. `ECG-Strip-Extractor-Portable-<version>.exe` runs without installing. |
+| macOS | `ECG-Strip-Extractor-<version>-mac-universal.dmg` | The app is not signed. The first time, right-click it in Applications and choose **Open**. |
+| Linux | `.AppImage` (any distro) or `.deb` (Debian/Ubuntu) | Make the AppImage executable, then run it. |
+
+Get the installers from the repository's **Releases** page, or from the latest **Desktop app** run under **Actions** (download the artifact for your system).
+
+Windows may show a SmartScreen warning because the installer is not code-signed. Click **More info › Run anyway**.
+
+## Use it in a browser
 
 Download `dist/ECG-Strip-Extractor.html` and double-click it. It opens in Chrome, Edge, Firefox or Safari and works fully offline, so PDFs never leave your computer.
 
@@ -27,6 +41,8 @@ The **Report values** panel lists the text printed outside the box (patient deta
 | `src/index.html` | The app source. It loads its PDF libraries from a CDN. |
 | `dist/ECG-Strip-Extractor.html` | The offline build, with the libraries bundled in. This is the file people download. |
 | `build.py` | Builds the offline file from `src/index.html`. |
+| `electron/` | The desktop app shell: `main.js` (window, menu, file opening), `preload.js`, and the app icon in `resources/`. |
+| `.github/workflows/desktop.yml` | Builds the desktop installers on Windows, macOS and Linux. |
 
 ## Build the offline file
 
@@ -38,6 +54,20 @@ npm run build
 ```
 
 This writes a new `dist/ECG-Strip-Extractor.html`.
+
+## Build the desktop app
+
+The desktop app packages `dist/ECG-Strip-Extractor.html`, so run `npm run build` first if you changed `src/index.html`.
+
+```
+npm install
+npm start            # run the desktop app without installing it
+npm run dist:win     # Windows installer + portable .exe  (build on Windows)
+npm run dist:mac     # macOS .dmg                         (build on a Mac)
+npm run dist:linux   # Linux .AppImage + .deb
+```
+
+Installers are written to `release/`. Building for Windows from Linux or macOS needs Wine, so it is easier to let GitHub Actions do it: every push that changes the app runs the **Desktop app** workflow, and pushing a tag such as `v1.0.1` (after bumping `version` in `package.json`) publishes the installers as a GitHub release. You can also publish without pushing a tag: under **Actions › Desktop app › Run workflow**, enter the tag in **release_tag** and the run creates it.
 
 ## Notes
 
