@@ -218,7 +218,7 @@ body.panel-resize,body.panel-resize *{user-select:none}
         <button class="btn sm" id="copyAll" disabled>Copy all</button>
       </div>
       <label class="readout inc vopt" for="vInside"><input type="checkbox" id="vInside"> Include text inside the box (lead labels)</label>
-      <div class="vlist" id="vList"><p class="vempty">Patient details and measurements printed on the ECG appear here. Click any value to copy it.</p></div>
+      <div class="vlist" id="vList"><p class="vempty">Patient details and measurements printed on the ECG appear here. Click a value to copy its numbers.</p></div>
     </section>
   </main>
   <div class="list" id="list" hidden></div>
@@ -412,7 +412,7 @@ function clearAll(){
   $('list').innerHTML=''; $('chips').innerHTML=''; $('pagesel').hidden=true; $('nav').hidden=true;
   $('fileName').textContent='No file'; $('readout').textContent='';
   vLines=[]; $('copyAll').disabled=true; $('vSub').textContent='Load a PDF to see its text';
-  $('vList').innerHTML='<p class="vempty">Patient details and measurements printed on the ECG appear here. Click any value to copy it.</p>';
+  $('vList').innerHTML='<p class="vempty">Patient details and measurements printed on the ECG appear here. Click a value to copy its numbers.</p>';
   setBusy(false); summary();
   toast('ECG removed. Drop a new PDF to start again.');
 }
@@ -489,13 +489,21 @@ function renderValues(){
     const row=document.createElement('div'); row.className='vrow';
     const wrapc=document.createElement('div'); wrapc.className='vcells';
     for(const t of cells){
-      const b=document.createElement('button'); b.type='button'; b.className='vcell'+(/^[-+\d.,/:°%\s]+$/.test(t)?' num':''); b.textContent=t; b.title='Copy "'+t+'"';
-      b.addEventListener('click',()=>copyText(t)); wrapc.append(b);
+      const n=numbersOf(t);
+      const b=document.createElement('button'); b.type='button'; b.className='vcell'+(/^[-+\d.,/:°%\s]+$/.test(t)?' num':''); b.textContent=t; b.title='Copy "'+n+'"';
+      b.addEventListener('click',()=>copyText(n)); wrapc.append(b);
     }
     const cl=document.createElement('button'); cl.type='button'; cl.className='vcopy'; cl.textContent='Copy line';
     cl.addEventListener('click',()=>copyText(cells.join('\t')));
     row.append(wrapc,cl); list.append(row);
   }
+}
+/* "Vent rate 72 bpm" -> "72", "P-R-T axes 52 45 -30" -> "52 45 -30"; dates and values with no number copy as they are */
+const DATE_RE=/\b\d{1,4}([-/.])(?:\d{1,2}|[A-Za-z]{3,9})\1\d{2,4}\b|\b[A-Za-z]{3,9}\.? \d{1,2},? \d{4}\b/;
+function numbersOf(t){
+  if(DATE_RE.test(t)) return t;
+  const m=t.match(/(?<![\w.])-?\d+(?:[.,:]\d+)*/g);
+  return m?m.join(' '):t;
 }
 function copyText(t){
   const done=()=>toast('Copied: '+(t.length>40?t.slice(0,40)+'…':t.replace(/\t/g,'  ')));
