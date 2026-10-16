@@ -67,7 +67,7 @@ npm run dist:mac     # macOS .dmg                         (build on a Mac)
 npm run dist:linux   # Linux .AppImage + .deb
 ```
 
-Installers are written to `release/`. Building for Windows from Linux or macOS needs Wine, so it is easier to let GitHub Actions do it: every push that changes the app runs the **Desktop app** workflow, and pushing a tag such as `v1.0.1` (after bumping `version` in `package.json`) publishes the installers as a GitHub release.
+Installers are written to `release/`. Building for Windows from Linux or macOS needs Wine, so it is easier to let GitHub Actions do it: every push that changes the app runs the **Desktop app** workflow, and pushing a tag such as `v1.0.1` (after bumping `version` in `package.json`) publishes the installers as a GitHub release. You can also publish without pushing a tag: under **Actions › Desktop app › Run workflow**, enter the tag in **release_tag** and the run creates it.
 
 ## Notes
 
