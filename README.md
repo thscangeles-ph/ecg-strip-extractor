@@ -14,7 +14,7 @@ ECG Strip Extractor also comes as an installable desktop app for Windows, macOS 
 | macOS | `ECG-Strip-Extractor-<version>-mac-universal.dmg` | The app is not signed. The first time, right-click it in Applications and choose **Open**. |
 | Linux | `.AppImage` (any distro) or `.deb` (Debian/Ubuntu) | Make the AppImage executable, then run it. |
 
-Get the installers from the repository's **Releases** page, or from the latest **Desktop app** run under **Actions** (download the artifact for your system).
+**[Download the latest release](https://github.com/thscangeles-ph/ecg-strip-extractor/releases/latest)** and pick the file for your system from the list under **Assets**. Builds that are not released yet are under **Actions**, in the latest **Desktop app** run (download the artifact for your system).
 
 Windows may show a SmartScreen warning because the installer is not code-signed. Click **More info › Run anyway**.
 
