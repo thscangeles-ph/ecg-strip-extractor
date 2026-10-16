@@ -8,7 +8,9 @@ ECG Strip Extractor also comes as an installable desktop app for Windows, macOS 
 
 | System | Download | Notes |
 | --- | --- | --- |
-| Windows 10/11 | `ECG-Strip-Extractor-Setup-<version>-x64.exe` (or `-arm64.exe`) | Installs for the current user; no admin rights needed. `ECG-Strip-Extractor-Portable-<version>.exe` runs without installing. |
+| Windows 10/11 | `ECG-Strip-Extractor-Setup-<version>.exe` | Works on any Windows PC: it contains both the x64 and ARM versions and installs the right one. Installs for the current user; no admin rights needed. |
+| | `ECG-Strip-Extractor-Setup-<version>-x64.exe` or `-arm64.exe` | The same installer for one type of PC only, at half the download size. |
+| | `ECG-Strip-Extractor-Portable-<version>.exe` | Runs without installing (x64 PCs). |
 | macOS | `ECG-Strip-Extractor-<version>-mac-universal.dmg` | The app is not signed. The first time, right-click it in Applications and choose **Open**. |
 | Linux | `.AppImage` (any distro) or `.deb` (Debian/Ubuntu) | Make the AppImage executable, then run it. |
 
