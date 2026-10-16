@@ -31,7 +31,7 @@ To use it without an internet connection, download `dist/ECG-Strip-Extractor.htm
 3. Tick the pages to keep under **Pages to save**.
 4. Click **Save tracing as PDF**.
 
-The **Report values** panel lists the text printed outside the box (patient details, rate, PR, QRS, QT and QTc as separate values). Click any value to copy it.
+The **Report values** panel lists the text printed outside the box (patient details, rate, PR, QRS, QT and QTc as separate values). Click a value to copy the numbers in it, for example `72` from "Vent rate 72 bpm"; a value with no numbers, such as the name, copies as it is. **Copy line** and **Copy all** copy the full text.
 
 ### Layout
 
