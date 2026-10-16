@@ -7,6 +7,7 @@ const path = require('path');
 const APP_HTML = path.join(__dirname, '..', 'dist', 'ECG-Strip-Extractor.html');
 const STATE_FILE = () => path.join(app.getPath('userData'), 'window-state.json');
 const MAX_PDF_BYTES = 200 * 1024 * 1024;
+const WEBSITE_URL = 'https://ecg-strip-extractor.vercel.app';
 
 let win = null;
 let pendingFile = null; // PDF passed on the command line or via "Open with", sent once the page is ready
@@ -88,6 +89,8 @@ function buildMenu() {
     {
       role: 'help',
       submenu: [
+        { label: 'Open ECG Strip Extractor Website', click: () => shell.openExternal(WEBSITE_URL) },
+        { type: 'separator' },
         {
           label: 'About ECG Strip Extractor',
           click: () => dialog.showMessageBox(win, {

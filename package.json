@@ -1,7 +1,7 @@
 {
   "name": "ecg-strip-extractor",
   "productName": "ECG Strip Extractor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Crop the tracing out of an ECG PDF, leave patient details behind, and save it true to scale.",
   "author": "thscangeles-ph",
