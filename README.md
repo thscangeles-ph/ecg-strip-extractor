@@ -6,7 +6,7 @@ Crop the tracing out of an ECG PDF, leave patient details behind, and save it as
 
 Download `dist/ECG-Strip-Extractor.html` and double-click it. It opens in Chrome, Edge, Firefox or Safari and works fully offline, so PDFs never leave your computer.
 
-1. Drop an ECG PDF on the page, or click to choose one.
+1. Drop an ECG PDF on the page, or click to choose one. **Try a sample ECG** shows how it works with a synthetic tracing.
 2. The tracing grid is found automatically. Drag the box to adjust it, or draw a new one.
 3. Tick the pages to keep under **Pages to save**.
 4. Click **Save tracing as PDF**.
