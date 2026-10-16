@@ -2,6 +2,8 @@
 
 Crop the tracing out of an ECG PDF, leave patient details behind, and save it as a new PDF that stays true to scale (25 mm/s and 10 mm/mV are correct when printed at 100%).
 
+**Use it online: [ecg-strip-extractor.vercel.app](https://ecg-strip-extractor.vercel.app)** · [Download the desktop app](https://github.com/thscangeles-ph/ecg-strip-extractor/releases/latest)
+
 ## Desktop app
 
 ECG Strip Extractor also comes as an installable desktop app for Windows, macOS and Linux. It is the same app in its own window, with a Start menu / Applications entry, **File › Open PDF…** (Ctrl+O / ⌘O), and an **Open with › ECG Strip Extractor** option for PDF files. It works fully offline.
@@ -20,7 +22,9 @@ Windows may show a SmartScreen warning because the installer is not code-signed.
 
 ## Use it in a browser
 
-Download `dist/ECG-Strip-Extractor.html` and double-click it. It opens in Chrome, Edge, Firefox or Safari and works fully offline, so PDFs never leave your computer.
+Open **[ecg-strip-extractor.vercel.app](https://ecg-strip-extractor.vercel.app)**. The PDF is read and saved inside your browser; it is never uploaded.
+
+To use it without an internet connection, download `dist/ECG-Strip-Extractor.html` and double-click it. It opens in Chrome, Edge, Firefox or Safari and works fully offline, so PDFs never leave your computer.
 
 1. Drop an ECG PDF on the page, or click to choose one. **Try a sample ECG** shows how it works with a synthetic tracing.
 2. The tracing grid is found automatically. Drag the box to adjust it, or draw a new one.
