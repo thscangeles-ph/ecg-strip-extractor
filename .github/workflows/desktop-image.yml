@@ -1,0 +1,106 @@
+name: Desktop app (images)
+
+# Builds the ECG Image Extractor desktop app (screenshots and photos) on Windows, macOS and Linux.
+# Every run uploads the installers as workflow artifacts. Pushing a tag like image-v1.0.0, or running the
+# workflow by hand with a release tag, also publishes a GitHub release. These releases are not marked
+# "latest", so the latest-release link keeps pointing at ECG Strip Extractor (the PDF app).
+on:
+  push:
+    tags: ['image-v*']
+    branches: ['**']
+    paths:
+      - 'image/**'
+      - 'dist/ECG-Image-Extractor.html'
+      - '.github/workflows/desktop-image.yml'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Publish a release with this tag (e.g. image-v1.0.0). Leave empty to only build.'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            name: windows
+            args: --win
+          - os: macos-latest
+            name: macos
+            args: --mac
+          - os: ubuntu-latest
+            name: linux
+            args: --linux
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: image
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: image/package-lock.json
+      - run: npm ci
+      - name: Build installers
+        run: npx electron-builder ${{ matrix.args }} --publish never
+        env:
+          # The app is not code-signed; stop electron-builder looking for a signing identity.
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ECG-Image-Extractor-${{ matrix.name }}
+          if-no-files-found: error
+          path: |
+            image/release/*.exe
+            image/release/*.dmg
+            image/release/*.AppImage
+            image/release/*.deb
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/image-v') || inputs.release_tag != ''
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      TAG: ${{ inputs.release_tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the tag matches the app version
+        run: |
+          v=$(node -p "require('./image/package.json').version")
+          if [ "$TAG" != "image-v$v" ]; then echo "::error::Tag $TAG does not match image/package.json version $v"; exit 1; fi
+          echo "VERSION=$v" >> "$GITHUB_ENV"
+      - uses: actions/download-artifact@v4
+        with:
+          path: installers
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG }}
+          target_commitish: ${{ github.sha }}
+          name: ECG Image Extractor ${{ env.VERSION }}
+          make_latest: false
+          files: installers/*
+          body: |
+            **ECG Image Extractor** crops the tracing out of an ECG **screenshot, JPEG or PNG** and saves it as a PDF sized from the ECG grid (1 small square = 1 mm), so 25 mm/s and 10 mm/mV stay correct when printed at 100%. Report values are read from the picture by text recognition; check them against the image. Works offline.
+
+            For ECGs saved as PDF, use [ECG Strip Extractor](https://github.com/thscangeles-ph/ecg-strip-extractor/releases/latest).
+
+            | System | Download |
+            | --- | --- |
+            | Windows (any PC) | `ECG-Image-Extractor-Setup-${{ env.VERSION }}.exe` |
+            | Windows x64 / ARM only | `ECG-Image-Extractor-Setup-${{ env.VERSION }}-x64.exe` / `-arm64.exe` |
+            | Windows, no install | `ECG-Image-Extractor-Portable-${{ env.VERSION }}.exe` |
+            | macOS | `ECG-Image-Extractor-${{ env.VERSION }}-mac-universal.dmg` |
+            | Linux | `.AppImage` or `.deb` |
+
+            The installers are not code-signed. On Windows click **More info › Run anyway**; on a Mac right-click the app and choose **Open** the first time.

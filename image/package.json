@@ -1,0 +1,127 @@
+{
+  "name": "ecg-image-extractor",
+  "productName": "ECG Image Extractor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Crop the tracing out of an ECG screenshot or photo and save it as a PDF sized from the ECG grid.",
+  "author": "thscangeles-ph",
+  "homepage": "https://ecg-strip-extractor.vercel.app/ECG-Image-Extractor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thscangeles-ph/ecg-strip-extractor.git",
+    "directory": "image"
+  },
+  "main": "electron/main.js",
+  "desktopName": "ecg-image-extractor.desktop",
+  "scripts": {
+    "build": "python3 build.py",
+    "start": "electron .",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "dist:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "@tesseract.js-data/eng": "1.0.0",
+    "electron": "44.5.1",
+    "electron-builder": "26.16.1",
+    "pdf-lib": "1.17.1",
+    "tesseract.js": "7.0.0",
+    "tesseract.js-core": "7.0.0"
+  },
+  "build": {
+    "appId": "ph.thscangeles.ecgimageextractor",
+    "productName": "ECG Image Extractor",
+    "artifactName": "ECG-Image-Extractor-${version}-${os}-${arch}.${ext}",
+    "directories": {
+      "output": "release",
+      "buildResources": "electron/resources"
+    },
+    "files": [
+      "electron/main.js",
+      "electron/preload.js",
+      "electron/resources/icon.png",
+      "package.json",
+      {
+        "from": "../dist",
+        "to": "dist",
+        "filter": [
+          "ECG-Image-Extractor.html"
+        ]
+      }
+    ],
+    "fileAssociations": [
+      {
+        "ext": [
+          "png",
+          "jpg",
+          "jpeg"
+        ],
+        "name": "Image",
+        "role": "Viewer",
+        "rank": "Alternate"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "ECG Image Extractor",
+      "artifactName": "ECG-Image-Extractor-Setup-${version}-${arch}.${ext}"
+    },
+    "portable": {
+      "artifactName": "ECG-Image-Extractor-Portable-${version}.${ext}"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "category": "public.app-category.medical"
+    },
+    "linux": {
+      "executableName": "ecg-image-extractor",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Science",
+      "maintainer": "thscangeles-ph",
+      "synopsis": "Crop ECG tracings out of screenshots and photos, sized from the grid",
+      "syncDesktopName": true
+    }
+  }
+}

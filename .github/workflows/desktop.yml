@@ -9,7 +9,7 @@ on:
     branches: ['**']
     paths:
       - 'electron/**'
-      - 'dist/**'
+      - 'dist/ECG-Strip-Extractor.html'
       - 'package.json'
       - 'package-lock.json'
       - '.github/workflows/desktop.yml'
